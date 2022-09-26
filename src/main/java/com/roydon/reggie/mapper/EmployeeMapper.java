@@ -1,7 +1,7 @@
 package com.roydon.reggie.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.itheima.reggie.entity.Employee;
+import com.roydon.reggie.entity.Employee;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
