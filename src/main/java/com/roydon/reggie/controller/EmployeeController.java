@@ -5,13 +5,13 @@ import com.roydon.reggie.common.R;
 import com.roydon.reggie.entity.Employee;
 import com.roydon.reggie.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    @Autowired
+    @Resource
     private EmployeeService employeeService;
 
     /**
@@ -39,6 +39,10 @@ public class EmployeeController {
         LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Employee::getUsername,employee.getUsername());
         Employee emp = employeeService.getOne(queryWrapper);
+
+        /*QueryWrapper<Employee> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(StringUtils.isNotBlank(employee.getUsername()),"username",employee.getUsername());
+        Employee emp = employeeService.getOne(queryWrapper);*/
 
         //3、如果没有查询到则返回登录失败结果
         if(emp == null){
