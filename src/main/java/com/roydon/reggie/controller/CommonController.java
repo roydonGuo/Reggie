@@ -95,7 +95,6 @@ public class CommonController {
     @GetMapping("/download")
     public void download(@RequestParam("name") String fileUUIDName, HttpServletResponse response) {
 
-
         try {
             // 输入流读取文件
             FileInputStream fileInputStream = new FileInputStream(new File(uploadPath + fileUUIDName));
@@ -104,7 +103,6 @@ public class CommonController {
 
             // 代表响应文件为图片
             response.setContentType("image/jpeg");
-
 
             //开始读取
 //            response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileUUIDName, "UTF-8"));
@@ -120,7 +118,6 @@ public class CommonController {
             // 关闭流
             outputStream.close();
             fileInputStream.close();
-
 
         } catch (Exception e) {
             e.printStackTrace();
