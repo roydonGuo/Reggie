@@ -35,7 +35,6 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         save(dishDto);
 
         Long dishId = dishDto.getId();//菜品id
-
         //菜品口味
         List<DishFlavor> flavors = dishDto.getFlavors();
         // 设置dishId
