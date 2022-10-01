@@ -90,7 +90,7 @@ public class CategoryController {
     public R<List<Category>> list(Category category) {
 
         LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
-        //  获取分类
+        // 获取分类
         queryWrapper.eq(category.getType() != null, Category::getType, category.getType());
         // 排序条件
         queryWrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
