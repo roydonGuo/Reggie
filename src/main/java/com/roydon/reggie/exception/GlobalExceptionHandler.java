@@ -1,5 +1,6 @@
-package com.roydon.reggie.common;
+package com.roydon.reggie.exception;
 
+import com.roydon.reggie.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,8 +26,8 @@ public class GlobalExceptionHandler {
     /**
      * 全局异常处理
      *
-     * @param ex
-     * @return
+     * @param ex SQLIntegrityConstraintViolationException
+     * @return R.error(" 自定义异常提示信息 ")
      */
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public R<String> exceptionHandler(SQLIntegrityConstraintViolationException ex) {
