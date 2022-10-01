@@ -42,7 +42,6 @@ public class DishController {
         log.info(dishDto.toString());
 
         dishService.saveWithFlavor(dishDto);
-
         return R.success("新增菜品成功");
     }
 
