@@ -71,7 +71,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     }
 
     @Override
-    @Transactional
+    @Transactional // 事务注解，保证数据一致性
     public void updateWithFlavor(DishDto dishDto) {
         //更新dish表基本信息
         this.updateById(dishDto);
@@ -83,9 +83,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         dishFlavorService.remove(queryWrapper);
 
         //添加当前提交过来的口味数据---dish_flavor表的insert操作
-        List<DishFlavor> flavors = dishDto.getFlavors();
-
-        flavors = flavors.stream().map((item) -> {
+        List<DishFlavor> flavors = dishDto.getFlavors().stream().map((item) -> {
             item.setDishId(dishDto.getId());
             return item;
         }).collect(Collectors.toList());
