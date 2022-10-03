@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8088
 spring:
   application:
     #应用的名称，可选
@@ -15,6 +15,11 @@ spring:
       max-file-size: 5MB # 默认1MB
       enabled: true
       max-request-size: 200MB
+  redis:
+    host: 192.168.52.128
+    port: 6379
+    password: qwer1234
+    database: 1
 mybatis-plus:
   configuration:
     #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
