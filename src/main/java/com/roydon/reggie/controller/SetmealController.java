@@ -11,6 +11,8 @@ import com.roydon.reggie.service.SetmealDishService;
 import com.roydon.reggie.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -42,6 +44,7 @@ public class SetmealController {
      * @return
      */
     @PostMapping
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public R<String> save(@RequestBody SetmealDto setmealDto) {
         log.info("套餐信息：{}", setmealDto);
 
@@ -92,11 +95,12 @@ public class SetmealController {
 
     /**
      * 删除套餐
-     *
+     * allEntries = true 表示删除 setmealCache 下的所有缓存数据
      * @param ids
      * @return
      */
     @DeleteMapping
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public R<String> delete(@RequestParam List<Long> ids) {
         log.info("ids:{}", ids);
 
@@ -117,16 +121,19 @@ public class SetmealController {
 //
 //        return R.success(setmealService.list(queryWrapper));
 //    }
+
     /**
      * 根据条件查询套餐数据
+     * 注意：当返回值为 R 时，R会报错无法序列化，所以 R 要实现序列化接口
      * @param setmeal
      * @return
      */
     @GetMapping("/list")
-    public R<List<Setmeal>> list(Setmeal setmeal){
+    @Cacheable(value = "setmealCache", key = "#setmeal.categoryId+':'+#setmeal.status")
+    public R<List<Setmeal>> list(Setmeal setmeal) {
         LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(setmeal.getCategoryId() != null,Setmeal::getCategoryId,setmeal.getCategoryId());
-        queryWrapper.eq(setmeal.getStatus() != null,Setmeal::getStatus,setmeal.getStatus());
+        queryWrapper.eq(setmeal.getCategoryId() != null, Setmeal::getCategoryId, setmeal.getCategoryId());
+        queryWrapper.eq(setmeal.getStatus() != null, Setmeal::getStatus, setmeal.getStatus());
         queryWrapper.orderByDesc(Setmeal::getUpdateTime);
 
         List<Setmeal> list = setmealService.list(queryWrapper);
